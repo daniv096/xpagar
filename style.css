@@ -1,0 +1,407 @@
+:root {
+    --primary-color: #FF7F00; /* Naranja */
+    --secondary-color: #0077CC; /* Azul */
+    --gradient-primary: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+    --gradient-secondary: linear-gradient(90deg, var(--primary-color), #FFA500); /* Naranja a Naranja más claro */
+    --text-color: #333;
+    --background-color: #f8f9fa;
+    --card-background: #ffffff;
+    --footer-background: #343a40;
+    --footer-text: #f8f9fa;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+.navbar .logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+
+.navbar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.navbar nav ul li {
+    margin-left: 20px;
+}
+
+.navbar nav ul li a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 400;
+    transition: color 0.3s ease;
+}
+
+.navbar nav ul li a:hover {
+    color: var(--primary-color);
+}
+
+/* Botones */
+.btn {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary {
+    background: var(--gradient-primary);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(0, 119, 204, 0.4); /* Sombra azulada */
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 119, 204, 0.5);
+}
+
+.btn-secondary {
+    background: none;
+    color: var(--secondary-color);
+    border: 2px solid var(--secondary-color);
+}
+.btn-secondary:hover {
+    background-color: var(--secondary-color);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+
+/* Hero Section */
+.hero {
+    background: var(--gradient-primary);
+    color: #fff;
+    padding: 100px 0;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    font-weight: 300;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero .btn-primary {
+     background: #fff; /* Botón blanco en el hero */
+     color: var(--secondary-color);
+     font-size: 1.1em;
+     padding: 15px 35px;
+     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.hero .btn-primary:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px);
+}
+
+
+/* How it Works Section */
+.how-it-works {
+    padding: 80px 0;
+    text-align: center;
+}
+
+.how-it-works h2 {
+    font-size: 2.5em;
+    margin-bottom: 50px;
+    color: var(--secondary-color);
+}
+
+.steps {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.step {
+    background-color: var(--card-background);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    flex-basis: calc(33.333% - 40px);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.step img {
+    max-width: 80px; /* Ajustar tamaño según los íconos finales */
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.step h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.step p {
+    font-size: 1em;
+    color: #555;
+}
+
+/* Merchants Section */
+.merchants {
+    padding: 80px 0;
+    background-color: #eef4f8; /* Un azul muy claro */
+}
+
+.merchants h2 {
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: var(--secondary-color);
+}
+.merchants > .container > p {
+     text-align: center;
+     font-size: 1.1em;
+     margin-bottom: 50px;
+     color: #555;
+}
+
+
+.merchant-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.merchant-card {
+    background-color: var(--card-background);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.merchant-card:hover {
+     transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.merchant-card img {
+    width: 100%;
+    height: 150px; /* Altura fija para las imágenes */
+    object-fit: cover; /* Para que las imágenes cubran el espacio sin distorsionarse */
+}
+
+.merchant-card h3 {
+    font-size: 1.3em;
+    margin: 15px 0 5px 0;
+    color: var(--text-color);
+}
+
+.merchant-card p {
+    font-size: 0.95em;
+    color: #666;
+    padding: 0 15px 15px 15px;
+}
+
+.merchants .btn-secondary {
+    display: block;
+    width: fit-content;
+    margin: 0 auto; /* Centrar botón */
+}
+
+/* CTA Section */
+.cta-section {
+    background: var(--gradient-secondary);
+    padding: 60px 0;
+    text-align: center;
+    color: #fff; /* Texto blanco sobre gradiente naranja */
+}
+
+.cta-section h2 {
+    font-size: 2.2em;
+    margin-bottom: 15px;
+}
+
+.cta-section p {
+    font-size: 1.1em;
+    margin-bottom: 30px;
+    font-weight: 300;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.cta-section .btn-primary {
+    background: #fff; /* Botón blanco */
+    color: var(--primary-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.cta-section .btn-primary:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Footer */
+footer {
+    background-color: var(--footer-background);
+    color: var(--footer-text);
+    padding: 30px 0;
+    text-align: center;
+}
+
+footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+footer p {
+    margin: 5px 0;
+    flex-basis: 100%; /* Ocupa todo el ancho en móvil */
+    text-align: center; /* Centrado en móvil */
+}
+
+footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0 0;
+    display: flex;
+    flex-basis: 100%; /* Ocupa todo el ancho en móvil */
+    justify-content: center; /* Centrado en móvil */
+}
+
+footer ul li {
+    margin-left: 15px;
+}
+
+footer ul li a {
+    color: var(--footer-text);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer ul li a:hover {
+    color: var(--primary-color);
+}
+
+
+/* Responsive */
+@media (min-width: 768px) {
+    footer .container {
+        justify-content: space-between;
+    }
+    footer p {
+        flex-basis: auto;
+        text-align: left;
+    }
+    footer ul {
+        flex-basis: auto;
+         justify-content: flex-end;
+         margin-top: 0;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .navbar .container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .navbar nav {
+        margin-top: 10px;
+        width: 100%;
+    }
+    .navbar nav ul {
+        flex-direction: column;
+        width: 100%;
+    }
+    .navbar nav ul li {
+        margin: 5px 0;
+        width: 100%;
+        text-align: center;
+    }
+     .navbar nav ul li a.btn {
+        display: block; /* Hacer que el botón ocupe el ancho */
+        margin-top: 10px;
+    }
+
+    .hero h1 {
+        font-size: 2.2em;
+    }
+    .hero p {
+        font-size: 1em;
+    }
+
+    .steps {
+        flex-direction: column;
+        align-items: center;
+    }
+    .step {
+        flex-basis: 80%;
+        max-width: 400px; /* Limitar ancho en móvil */
+    }
+
+    .merchant-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Ajuste para móviles */
+    }
+
+
+}
+
