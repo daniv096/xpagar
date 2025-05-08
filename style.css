@@ -227,7 +227,7 @@
     display: flex;
     padding: 2rem;
     position: relative;
-    background: var(--gradient-primary);
+    background: #fefefe;  /*var(--gradient-primary);*/
     color: var(--white);
   }
   
@@ -493,7 +493,8 @@
   /* Extra Banners Section */
   .extra-banners {
     padding: 3rem 0;
-    background-color: var(--light-gray);
+    background-color: #fefefe; 
+
   }
   
   .banners-container {
@@ -933,4 +934,13 @@
       padding: 1.5rem;
       margin: 0 1rem;
     }
+
+    .extra-banners .banner {
+        background-color: #fefefe; /* Blanco perlado */
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+        color: #333;
+        transition: transform 0.3s ease;
+      }
   }
