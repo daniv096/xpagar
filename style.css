@@ -943,4 +943,24 @@
         color: #333;
         transition: transform 0.3s ease;
       }
+
+      .store-buttons {
+        display: flex;
+        gap: 20px; /* espacio entre los botones */
+        justify-content: center; /* centrar los botones si es necesario */
+        margin-top: 1rem;
+      }
+      
+      .store-button {
+        width: 80px;       /* ajusta este valor según el tamaño deseado */
+        height: auto;       /* mantiene la proporción original */
+        object-fit: contain;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+        display: block;
+      }
+      
+      .store-button:hover {
+        transform: scale(1.05); /* efecto al pasar el mouse */
+      }
   }
