@@ -1,50 +1,54 @@
 import confetti from 'canvas-confetti';
 
-// Simple confetti effect on button click
-const applyButton = document.getElementById('apply-button');
-
-if (applyButton) {
-    applyButton.addEventListener('click', () => {
-        confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.6 }
-        });
-    });
-}
+// Simple confetti effect on button click - this button was removed, keeping for potential future use
+// const applyButton = document.getElementById('apply-button');
+// if (applyButton) {
+//     applyButton.addEventListener('click', () => {
+//         confetti({
+//             particleCount: 100,
+//             spread: 70,
+//             origin: { y: 0.6 }
+//         });
+//     });
+// }
 
 // Smooth scroll for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-        // Check if it's just a placeholder link for modal or other JS actions
-        if (this.getAttribute('href') === '#' || this.classList.contains('btn-secondary')) {
-            // Check if it's NOT the login modal button specifically
-            if(this.id !== 'login-modal-button' && !this.closest('.modal-switch a')) {
-                 // For other '#' links that are not modal triggers, we might still want to prevent default
-                 // but not scroll. This condition might need refinement based on other '#' links.
-                // e.preventDefault(); // Uncomment if other '#' links should not cause page jump
+        const href = this.getAttribute('href');
+        // Exclude modal-related links and simple '#' placeholders from smooth scroll
+        if (href === '#' || 
+            this.id === 'login-modal-button' || 
+            this.classList.contains('show-login-link') ||
+            this.id === 'show-reg-type-link' ||
+            this.id === 'switch-to-merchant-reg-link' ||
+            this.id === 'switch-to-customer-reg-link' ||
+            this.classList.contains('learn-more-btn') ||
+            this.id === 'hero-solicita-avance-btn' || // New hero buttons
+            this.id === 'hero-registrate-btn' ||      // New hero buttons
+            this.closest('.modal-switch a')) { 
+            
+            if (!this.classList.contains('learn-more-btn') && // Prevent default jump for non-scrolling links
+                !this.id === 'hero-solicita-avance-btn' &&
+                !this.id === 'hero-registrate-btn' &&
+                href === '#') {
+                 e.preventDefault(); 
             }
-             // If it's the login modal button or a link within the modal, JS will handle it, so do nothing here or e.preventDefault()
-            if (this.id === 'login-modal-button' || this.closest('.modal-switch a')) {
-                e.preventDefault();
-            }
-            return; // Exit early for modal triggers or simple '#' links not meant for scrolling
+            if(href === '#') return; 
         }
 
-        // Check if the target element exists
-        const targetHref = this.getAttribute('href');
-        // Ensure targetHref is not just "#" before querying
-        if (targetHref && targetHref.length > 1) {
-            const targetElement = document.querySelector(targetHref);
-            if (targetElement) {
-                 e.preventDefault();
-                targetElement.scrollIntoView({
-                    behavior: 'smooth'
-                });
+        if (href && href.length > 1 && href.startsWith('#')) {
+            try {
+                const targetElement = document.querySelector(href);
+                if (targetElement) {
+                    e.preventDefault();
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            } catch (error) {
+                console.warn('Smooth scroll target not found or invalid:', href, error);
             }
-        } else if (targetHref === '#') {
-            // If it's just '#', prevent default to avoid jumping to top if not handled above
-            e.preventDefault();
         }
     });
 });
@@ -53,17 +57,78 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 const loginModal = document.getElementById('login-modal');
 const loginModalButton = document.getElementById('login-modal-button');
 const closeButton = document.querySelector('.modal .close-button');
+const modalTitle = document.getElementById('modal-title');
+
+// Forms and sections
 const loginForm = document.getElementById('login-form');
-const registerForm = document.getElementById('register-form');
-const registerLink = document.getElementById('register-link');
-const loginLink = document.getElementById('login-link');
+const registrationTypeSelection = document.getElementById('registration-type-selection');
+const customerRegisterForm = document.getElementById('customer-register-form');
+const merchantRegisterForm = document.getElementById('merchant-register-form');
+
+// Buttons for switching views
+const showRegTypeLink = document.getElementById('show-reg-type-link');
+const registerAsCustomerBtn = document.getElementById('register-as-customer-btn');
+const registerAsMerchantBtn = document.getElementById('register-as-merchant-btn');
+const switchToMerchantRegLink = document.getElementById('switch-to-merchant-reg-link');
+const switchToCustomerRegLink = document.getElementById('switch-to-customer-reg-link');
+const showLoginLinks = document.querySelectorAll('.show-login-link');
+
+
+function showModalSection(sectionToShow) {
+    loginForm.style.display = 'none';
+    registrationTypeSelection.style.display = 'none';
+    customerRegisterForm.style.display = 'none';
+    merchantRegisterForm.style.display = 'none';
+
+    if (sectionToShow) {
+        sectionToShow.style.display = 'block';
+    }
+
+    if (sectionToShow === loginForm) {
+        modalTitle.textContent = 'Ingresar';
+    } else if (sectionToShow === registrationTypeSelection) {
+        modalTitle.textContent = 'Selecciona tu tipo de registro';
+    } else if (sectionToShow === customerRegisterForm) {
+        modalTitle.textContent = 'Registro de Cliente';
+    } else if (sectionToShow === merchantRegisterForm) {
+        modalTitle.textContent = 'Registro de Comercio';
+    } else {
+        modalTitle.textContent = 'Ingresar o Registrarse';
+    }
+}
+
 
 if (loginModalButton) {
     loginModalButton.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevent default anchor behavior
+        e.preventDefault();
         loginModal.style.display = 'flex';
+        showModalSection(loginForm); 
     });
 }
+
+// New hero buttons potentially opening modal
+const heroSolicitaAvanceBtn = document.getElementById('hero-solicita-avance-btn');
+if (heroSolicitaAvanceBtn) {
+    heroSolicitaAvanceBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Potentially open modal or scroll to a relevant section
+        // For now, let's assume it might open the login/register modal to proceed
+        loginModal.style.display = 'flex';
+        showModalSection(loginForm); // Or a specific form related to cash advance if available
+        console.log("Hero Solicita Avance button clicked");
+    });
+}
+
+const heroRegistrateBtn = document.getElementById('hero-registrate-btn');
+if (heroRegistrateBtn) {
+    heroRegistrateBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        loginModal.style.display = 'flex';
+        showModalSection(registrationTypeSelection); // Show registration type selection
+        console.log("Hero Registrate button clicked");
+    });
+}
+
 
 if (closeButton) {
     closeButton.addEventListener('click', () => {
@@ -71,17 +136,163 @@ if (closeButton) {
     });
 }
 
-// Close modal if user clicks outside of modal-content
 window.addEventListener('click', (event) => {
     if (event.target === loginModal) {
         loginModal.style.display = 'none';
     }
 });
 
+// Navigation within modal
+if (showRegTypeLink) {
+    showRegTypeLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        showModalSection(registrationTypeSelection);
+    });
+}
+
+showLoginLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        showModalSection(loginForm);
+    });
+});
+
+if (registerAsCustomerBtn) {
+    registerAsCustomerBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        showModalSection(customerRegisterForm);
+    });
+}
+
+if (registerAsMerchantBtn) {
+    registerAsMerchantBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        showModalSection(merchantRegisterForm);
+    });
+}
+
+if (switchToMerchantRegLink) {
+    switchToMerchantRegLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        showModalSection(merchantRegisterForm);
+    });
+}
+
+if (switchToCustomerRegLink) {
+    switchToCustomerRegLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        showModalSection(customerRegisterForm);
+    });
+}
+
+// Generic Carousel Functionality
+function initializeCarousel(carouselId, trackClass, slidesClass, dotsClass, intervalTime = 7000) {
+    const carouselElement = document.getElementById(carouselId) || document.querySelector(carouselId); // Allow ID or class selector
+    if (!carouselElement) {
+        // console.warn(`Carousel element with selector ${carouselId} not found.`);
+        return;
+    }
+
+    const carouselTrack = carouselElement.querySelector(`.${trackClass}`);
+    const dotsContainer = carouselElement.querySelector(`.${dotsClass}`);
+    
+    if (!carouselTrack) {
+        // console.warn(`Carousel track with class ${trackClass} not found inside ${carouselId}.`);
+        return;
+    }
+
+    const slides = Array.from(carouselTrack.children).filter(child => child.classList.contains(slidesClass.replace('.', '')));
+    
+    if (slides.length === 0) {
+        // console.warn(`No slides with class ${slidesClass} found in ${trackClass}.`);
+        return;
+    }
+
+    let currentIndex = 0;
+    let slideInterval;
+
+    function updateCarousel() {
+        carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+        
+        if (dotsContainer) {
+            const dots = Array.from(dotsContainer.children);
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % slides.length;
+        updateCarousel();
+    }
+
+    // function prevSlide() { // Not currently used with buttons, but good to have
+    //     currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+    //     updateCarousel();
+    // }
+
+    function goToSlide(index) {
+        if (index < 0 || index >= slides.length) return;
+        currentIndex = index;
+        updateCarousel();
+        resetSlideInterval();
+    }
+
+    function resetSlideInterval() {
+        clearInterval(slideInterval);
+        if (slides.length > 1) {
+            slideInterval = setInterval(nextSlide, intervalTime);
+        }
+    }
+
+    // Create dots
+    if (dotsContainer && slides.length > 1) {
+        dotsContainer.innerHTML = ''; // Clear existing dots if any (e.g., on re-init)
+        slides.forEach((_, index) => {
+            const dot = document.createElement('button');
+            dot.classList.add('carousel-dot'); // General class, specific styling via parent
+            dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(index));
+            dotsContainer.appendChild(dot);
+        });
+    }
+    
+    updateCarousel(); // Initial setup
+    resetSlideInterval(); // Start auto-slide
+
+    // Optional: Pause on hover
+    const carouselContainer = carouselTrack.closest('.carousel-container'); // Find closest container
+    if (carouselContainer) {
+        carouselContainer.addEventListener('mouseenter', () => clearInterval(slideInterval));
+        carouselContainer.addEventListener('mouseleave', resetSlideInterval);
+    }
+}
+
+// Initialize Hero Carousel
+initializeCarousel(
+    'hero-carousel-section',      // ID of the main section containing the carousel
+    'hero-carousel-track',        // Class of the track element
+    'hero-carousel-slide',        // Class of individual slide elements
+    'hero-carousel-dots',         // Class of the dots container
+    5000                          // Interval time for hero carousel (e.g., 5 seconds)
+);
+
+// Initialize Services Carousel
+initializeCarousel(
+    'servicios-carousel-section', // ID of the main section for this carousel
+    'services-carousel-track',    // Unique class for its track
+    'services-carousel-slide',    // Unique class for its slides
+    'services-carousel-dots',     // Unique class for its dots container
+    7000                          // Interval time for services carousel
+);
+
+
+// Form Submissions
 if (loginForm) {
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        // Basic validation example
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         if (email && password) {
@@ -94,25 +305,23 @@ if (loginForm) {
     });
 }
 
-if (registerForm) {
-    registerForm.addEventListener('submit', (e) => {
+if (customerRegisterForm) {
+    customerRegisterForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const fullName = document.getElementById('reg-fullname').value;
-        const alias = document.getElementById('reg-alias').value;
-        const idNumber = document.getElementById('reg-id').value;
-        const phone = document.getElementById('reg-phone').value;
-        const email = document.getElementById('reg-email').value;
-        const password = document.getElementById('reg-password').value;
-        const confirmPassword = document.getElementById('reg-confirm-password').value;
+        const fullName = document.getElementById('reg-customer-fullname').value;
+        const alias = document.getElementById('reg-customer-alias').value;
+        const idNumber = document.getElementById('reg-customer-id').value;
+        const phone = document.getElementById('reg-customer-phone').value;
+        const email = document.getElementById('reg-customer-email').value;
+        const password = document.getElementById('reg-customer-password').value;
+        const confirmPassword = document.getElementById('reg-customer-confirm-password').value;
 
         if (fullName && alias && idNumber && phone && email && password && confirmPassword) {
             if (password === confirmPassword) {
-                alert('Registro exitoso (simulado)');
+                alert('Registro de cliente exitoso (simulado)');
                 loginModal.style.display = 'none';
-                registerForm.reset();
-                // Optionally switch back to login form
-                loginForm.style.display = 'block';
-                registerForm.style.display = 'none';
+                customerRegisterForm.reset();
+                showModalSection(loginForm); // Go back to login form
             } else {
                 alert('Las contraseñas no coinciden.');
             }
@@ -122,20 +331,32 @@ if (registerForm) {
     });
 }
 
-if (registerLink) {
-    registerLink.addEventListener('click', (e) => {
+if (merchantRegisterForm) {
+    merchantRegisterForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        loginForm.style.display = 'none';
-        registerForm.style.display = 'block';
+        const storeName = document.getElementById('reg-merchant-name').value;
+        const storeRif = document.getElementById('reg-merchant-rif').value;
+        const storeCategory = document.getElementById('reg-merchant-category').value;
+        const storeAddress = document.getElementById('reg-merchant-address').value;
+        const contactPerson = document.getElementById('reg-merchant-contact-person').value;
+        const phone = document.getElementById('reg-merchant-phone').value;
+        const email = document.getElementById('reg-merchant-email').value;
+        const password = document.getElementById('reg-merchant-password').value;
+        const confirmPassword = document.getElementById('reg-merchant-confirm-password').value;
+
+        if (storeName && storeRif && storeCategory && storeAddress && contactPerson && phone && email && password && confirmPassword) {
+            if (password === confirmPassword) {
+                alert('Registro de comercio exitoso (simulado)');
+                loginModal.style.display = 'none';
+                merchantRegisterForm.reset();
+                showModalSection(loginForm); // Go back to login form
+            } else {
+                alert('Las contraseñas no coinciden.');
+            }
+        } else {
+            alert('Por favor, completa todos los campos del comercio.');
+        }
     });
 }
 
-if (loginLink) {
-    loginLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        registerForm.style.display = 'none';
-        loginForm.style.display = 'block';
-    });
-}
-
-console.log("xPagar script loaded.");
+console.log("xPagar script loaded and updated for new hero carousel and modular carousel logic.");
