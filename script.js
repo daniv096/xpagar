@@ -186,7 +186,7 @@ if (switchToCustomerRegLink) {
 }
 
 // Generic Carousel Functionality
-function initializeCarousel(carouselId, trackClass, slidesClass, dotsClass, intervalTime = 7000) {
+function initializeCarousel(carouselId, trackClass, slidesClass, dotsClass, intervalTime = 15000) {
     const carouselElement = document.getElementById(carouselId) || document.querySelector(carouselId); // Allow ID or class selector
     if (!carouselElement) {
         // console.warn(`Carousel element with selector ${carouselId} not found.`);
@@ -276,7 +276,7 @@ initializeCarousel(
     'hero-carousel-track',        // Class of the track element
     'hero-carousel-slide',        // Class of individual slide elements
     'hero-carousel-dots',         // Class of the dots container
-    5000                          // Interval time for hero carousel (e.g., 5 seconds)
+    15000                          // Interval time for hero carousel (e.g., 5 seconds)
 );
 
 // Initialize Services Carousel
@@ -285,7 +285,7 @@ initializeCarousel(
     'services-carousel-track',    // Unique class for its track
     'services-carousel-slide',    // Unique class for its slides
     'services-carousel-dots',     // Unique class for its dots container
-    7000                          // Interval time for services carousel
+    15000                          // Interval time for services carousel
 );
 
 
